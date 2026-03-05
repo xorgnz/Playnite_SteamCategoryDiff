@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <!-- Copy output into a Playnite portable Extensions folder for quick testing (optional) -->
+    <!-- Set this to your Playnite portable "Extensions" directory if you want one-click deploy. -->
+    <!-- Example: D:\Tools\Playnite\Extensions\SteamCategoryDiff -->
+    <PlayniteExtensionDeployDir>D:\GoogleDrive\Tools\Playnite\Playnite\Extensions\SteamCategoryDiff</PlayniteExtensionDeployDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <Reference Include="Playnite.SDK">
+		<HintPath>D:\GoogleDrive\Tools\Playnite\Playnite\Playnite.SDK.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
+	  <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="extension.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="DeployToPlaynite" AfterTargets="Build" Condition="'$(PlayniteExtensionDeployDir)' != ''">
+    <Message Text="Deploying to: $(PlayniteExtensionDeployDir)" Importance="high" />
+    <MakeDir Directories="$(PlayniteExtensionDeployDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PlayniteExtensionDeployDir)" />
+    <Copy SourceFiles="$(TargetDir)extension.yaml" DestinationFolder="$(PlayniteExtensionDeployDir)" />
+    <ItemGroup>
+      <_Deps Include="$(TargetDir)*.dll" Exclude="$(TargetPath)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_Deps)" DestinationFolder="$(PlayniteExtensionDeployDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>
