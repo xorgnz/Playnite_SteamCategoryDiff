@@ -116,5 +116,5 @@ If set to a valid Playnite extension folder, build output is copied there automa
 
 ## License
 
-No license file is currently included.
-If you plan to publish this repository, add a `LICENSE` file.
+This project is licensed under the MIT License.
+See [LICENSE](LICENSE).
