@@ -11,7 +11,7 @@ namespace SteamCategoryDiff
 
         public SteamCategoryDiffPlugin(IPlayniteAPI api) : base(api)
         {
-            api.Dialogs.ShowMessage("SteamCategoryDiff loaded", "SteamCategoryDiff");
+            Logger.Info("SteamCategoryDiff plugin loaded.");
         }
 
         public override Guid Id => Guid.Parse("6f2a4c84-9df7-4af1-9f4c-7e4f59c0c111"); // must match extension.yaml Id
